@@ -13,6 +13,7 @@ namespace Kanban.Desktop.ViewModels;
 /// <summary>タグの分類・並び替え。</summary>
 public static class TagRules
 {
+    /// <summary>「今日」フィルタから除外する特殊タグ（習慣トラッカー用）。</summary>
     public const string TrackerTag = "p-tracker";
     public static bool IsProject(string name) => name.StartsWith("p-");
     public static bool IsWork(string name) => name.StartsWith("w-");

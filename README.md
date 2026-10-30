@@ -1,5 +1,7 @@
 # kanban-desktop
 
+A Windows (WPF) kanban board whose data lives as plain-text Markdown / JSON files in a synced folder (e.g. Dropbox), with a local REST API and a built-in MCP server for AI agent integration.
+
 同期フォルダー上のプレーンテキスト（例: Dropbox）を正本とする、C# / .NET 8 / WPF のカンバン。
 
 - データ正本: 同期フォルダー内の Markdown / JSON（任意のディレクトリを vault として指定）
@@ -29,59 +31,13 @@ dotnet run --project src/Kanban.Desktop
 dotnet run --project src/Kanban.Desktop -- --api-only
 ```
 
-### UI の見た目を PNG に保存（開発用・画面を前面に出さない）
-
-```powershell
-dotnet run --project src/Kanban.Desktop -- --screenshot C:\path\to\outdir
-```
-
-`shot-boards.png` / `shot-adding.png` / `shot-detail.png` / `shot-detail-bottom.png` / `shot-detail-quickadd.png` / `shot-detail-wide-zoom.png` / `shot-settings.png` / `shot-markdown.png` / `shot-detail-edit.png` / `shot-today.png` /
-`shot-collapsed.png` / `shot-sidebar-search.png` / `shot-board-settings.png` / `shot-activity.png` / `shot-search.png` を出力して終了する。
-常駐中の本体とは別に動く（多重起動チェック・API ホストは省略）。
-
-### コメントの Markdown プレビュー確認（開発用）
-
-コメントファイル（`comments/<番号>/*.md`）を詳細画面と同じ幅で描いて PNG に保存する。表の崩れなどの確認用。
-
-```powershell
-dotnet run --project src/Kanban.Desktop -- --mdtest <コメントの .md> <出力 .png>
-```
-
-### 自動検証（開発用）
-
-vault のコピーを渡すと、Tags 画面の操作と絞り込み中の追加を実行して `selftest-result.txt` に PASS/FAIL を書き出す。
-**本番の vault は渡さないこと**（タグやアイテムを実際に作成・変更する）。
-
-```powershell
-dotnet run --project src/Kanban.Desktop -- --selftest <vaultのコピー>
-```
-
-### 入力の実機検証（開発用）
-
-本物のキー / マウス入力（SendInput）で、入力欄の Ctrl+C / Ctrl+V（IME オン中を含む）を確かめる。vault のコピーを 2 つ目に渡すと、
-メイン画面の検索欄・詳細のタイトル/説明、Shift+ホイールの横スクロール、Ctrl+クリックの複数選択と番号コピーも確かめる。
-結果は `<出力先>/clip-test.txt`。数秒間マウス・キーボード・クリップボードを使う（終了時にクリップボードの文字列は戻す）。
-**本番の vault は渡さないこと**（詳細のタイトル・説明を書き換える）。
-
-```powershell
-dotnet run --project src/Kanban.Desktop -- --cliptest C:\path\to\outdir <vaultのコピー>
-```
-
-### 性能計測（開発用）
-
-```powershell
-dotnet run --project src/Kanban.Desktop -c Release -- --bench C:\path\to\bench.txt
-```
-
-起動・再読み込み・アイテムを開く/閉じる・フィルタ切替の所要時間（描画込み）を書き出す。データは変更しない。
-
 ## UI の操作
 
 - **ヘッダー**: プロジェクト切替（選択は `%LOCALAPPDATA%\Kanban\ui.json` に保存）、検索、
   Boards / Activity の切替
 - **サイドバー（プロジェクトタグ）**: すべて / 今日 / 仕事 (`w-*`) / プロジェクト (`p-*`)。
   件数は Inbox + Doing の在籍数。クリックで単一選択（再クリックで解除）、Ctrl+クリックで複数選択。
-  「今日」は期限が今日以前のカード（`p-tracker` 除外）。左上の `<` で折りたたみ（状態は保存）。
+  「今日」は期限が今日以前のカード（`p-tracker` タグのカードは除外）。左上の `<` で折りたたみ（状態は保存）。
   上部の「タグを検索」で名前・説明の部分一致で絞り込み（Enter で先頭を選択、Esc でクリア）。
   「仕事」「プロジェクト」の見出しクリックでグループを開閉（状態は `ui.json` に保存。タグ検索中・アイコン表示中は閉じていても中身を出す）
 - **ボードの設定**: カラム見出しの `⋯` か、右端の「+ ボードを追加」でモーダルを開く。各ボードの絵文字（見出しの名前の前に表示）・名前・色・完了扱い (`is_done`)・折り返し表示 (`layout`) の編集、▲▼ で並び替え、削除（中のアイテムも消える）、新規ボードの追加ができる。名前は Enter かフォーカスアウトで保存、Esc で取り消し / 閉じる。Inbox / Doing はサイドバー件数の判定に名前を使う
@@ -205,6 +161,54 @@ delete_item, archive_item, add_subtask, update_subtask, delete_subtask, add_comm
 delete_comment, list_tags, create_tag, update_tag, delete_tag, attach_tag, detach_tag,
 list_activity, search`
 
+## 開発用コマンド
+
+### UI の見た目を PNG に保存（開発用・画面を前面に出さない）
+
+```powershell
+dotnet run --project src/Kanban.Desktop -- --screenshot C:\path\to\outdir
+```
+
+`shot-boards.png` / `shot-adding.png` / `shot-detail.png` / `shot-detail-bottom.png` / `shot-detail-quickadd.png` / `shot-detail-wide-zoom.png` / `shot-settings.png` / `shot-markdown.png` / `shot-detail-edit.png` / `shot-today.png` /
+`shot-collapsed.png` / `shot-sidebar-search.png` / `shot-board-settings.png` / `shot-activity.png` / `shot-search.png` を出力して終了する。
+常駐中の本体とは別に動く（多重起動チェック・API ホストは省略）。
+
+### コメントの Markdown プレビュー確認（開発用）
+
+コメントファイル（`comments/<番号>/*.md`）を詳細画面と同じ幅で描いて PNG に保存する。表の崩れなどの確認用。
+
+```powershell
+dotnet run --project src/Kanban.Desktop -- --mdtest <コメントの .md> <出力 .png>
+```
+
+### 自動検証（開発用）
+
+vault のコピーを渡すと、Tags 画面の操作と絞り込み中の追加を実行して `selftest-result.txt` に PASS/FAIL を書き出す。
+**本番の vault は渡さないこと**（タグやアイテムを実際に作成・変更する）。
+
+```powershell
+dotnet run --project src/Kanban.Desktop -- --selftest <vaultのコピー>
+```
+
+### 入力の実機検証（開発用）
+
+本物のキー / マウス入力（SendInput）で、入力欄の Ctrl+C / Ctrl+V（IME オン中を含む）を確かめる。vault のコピーを 2 つ目に渡すと、
+メイン画面の検索欄・詳細のタイトル/説明、Shift+ホイールの横スクロール、Ctrl+クリックの複数選択と番号コピーも確かめる。
+結果は `<出力先>/clip-test.txt`。数秒間マウス・キーボード・クリップボードを使う（終了時にクリップボードの文字列は戻す）。
+**本番の vault は渡さないこと**（詳細のタイトル・説明を書き換える）。
+
+```powershell
+dotnet run --project src/Kanban.Desktop -- --cliptest C:\path\to\outdir <vaultのコピー>
+```
+
+### 性能計測（開発用）
+
+```powershell
+dotnet run --project src/Kanban.Desktop -c Release -- --bench C:\path\to\bench.txt
+```
+
+起動・再読み込み・アイテムを開く/閉じる・フィルタ切替の所要時間（描画込み）を書き出す。データは変更しない。
+
 ## テスト
 
 ```powershell
@@ -218,3 +222,7 @@ dotnet test
 - item frontmatter の `board` はボード GUID（表示名は `boards.json` から解決）。
 - トラッカー（スケジュール・自動 tick）は実装しない。
 - コンフリクト解決 UI・タグ絞り込み UI は今後（現状は検知の土台のみ）。
+
+## License
+
+[MIT](LICENSE)

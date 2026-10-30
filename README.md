@@ -1,10 +1,10 @@
 # kanban-desktop
 
-Dropbox 上のプレーンテキストを正本とする、C# / .NET 8 / WPF のカンバン。
+同期フォルダー上のプレーンテキスト（例: Dropbox）を正本とする、C# / .NET 8 / WPF のカンバン。
 既存の `kanban-tasks`（Next.js + Supabase + Vercel）を置き換えるための独立システムで、
 既存アプリは改修せず残している。
 
-- データ正本: Dropbox 内の Markdown / JSON（`apps/kanban`）
+- データ正本: 同期フォルダー内の Markdown / JSON（任意のディレクトリを vault として指定）
 - アプリ: WPF（ライトテーマ）
 - ローカル REST API: アプリ内で Kestrel をホスト（`127.0.0.1`）
 - エージェント: 独立した C# MCP サーバ（stdio）→ ローカル API
@@ -160,7 +160,7 @@ tests/
 ## vault 構成
 
 ```
-apps/kanban/
+<vault root>/
   vault.json  projects.json  boards.json  tags.json  sequence.json
   items/<number>.md                       # frontmatter(メタ) + 本文(description)
   comments/<number>/<utc>-<actor>-<id8>.md

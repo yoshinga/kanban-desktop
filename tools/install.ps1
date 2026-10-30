@@ -26,11 +26,11 @@ function New-Lnk([string]$linkPath, [string]$target, [string]$workdir, [string]$
 
 $desktop = [Environment]::GetFolderPath("Desktop")
 $deskLink = Join-Path $desktop "Kanban.lnk"
-New-Lnk $deskLink $exe $appDir "Kanban (Dropbox)"
+New-Lnk $deskLink $exe $appDir "Kanban"
 
 $programs = [Environment]::GetFolderPath("Programs")
 $startLink = Join-Path $programs "Kanban.lnk"
-New-Lnk $startLink $exe $appDir "Kanban (Dropbox)"
+New-Lnk $startLink $exe $appDir "Kanban"
 
 Write-Output "desktop shortcut: $deskLink"
 Write-Output "start menu shortcut: $startLink"

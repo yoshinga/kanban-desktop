@@ -1,7 +1,7 @@
 namespace Kanban.Core;
 
 /// <summary>
-/// タグ名からの自動配色。Next.js 版 lib/tag-palette.ts と同じ 16 色
+/// タグ名からの自動配色（16 色）
 /// （Tailwind *-500 をビット反転順に並べたもの）と FNV-1a + Murmur3 fmix32 ハッシュ。
 /// </summary>
 public static class TagPalette

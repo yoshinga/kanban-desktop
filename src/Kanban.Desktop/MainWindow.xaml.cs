@@ -743,7 +743,7 @@ public partial class MainWindow : Window
         _pendingMove = (dragged, board, index);
     }
 
-    // ---- card context menu (Next.js 版 TagContextMenu 相当) ----
+    // ---- card context menu ----
 
     private void Card_RightClick(object sender, MouseButtonEventArgs e)
     {

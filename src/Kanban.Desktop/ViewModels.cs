@@ -10,7 +10,7 @@ using Kanban.Core.Models;
 
 namespace Kanban.Desktop.ViewModels;
 
-/// <summary>Next.js 版 lib/tag-sort.ts 相当のタグ分類・並び替え。</summary>
+/// <summary>タグの分類・並び替え。</summary>
 public static class TagRules
 {
     public const string TrackerTag = "p-tracker";
@@ -138,7 +138,7 @@ public sealed partial class ItemCardVm : ObservableObject
     public string SubtaskText => $"{Summary.SubtasksCount.Done}/{Summary.SubtasksCount.Total}";
     public bool HasComments => Summary.CommentsCount > 0;
     public int CommentsCount => Summary.CommentsCount;
-    /// <summary>コメント数は 2 件以上のときだけ数字を出す（Next.js 版と同じ）。</summary>
+    /// <summary>コメント数は 2 件以上のときだけ数字を出す。</summary>
     public bool ShowCommentsCount => Summary.CommentsCount > 1;
     public bool Archived => Item.Archived;
     public bool HasHeaderRow => ShowSequence || (!Dimmed && (HasDue || Tags.Count > 0))
@@ -998,7 +998,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsTagsViewChanged(bool value) => OnPropertyChanged(nameof(ShowBoards));
 
     private TagsAdminViewModel? _tagsAdmin;
-    /// <summary>Tags 画面（Next.js 版 /tags 相当）。</summary>
+    /// <summary>Tags 画面。</summary>
     public TagsAdminViewModel TagsAdmin => _tagsAdmin ??= new TagsAdminViewModel(_svc, ShowNotice);
 
     public void ShowTags()
@@ -1448,7 +1448,7 @@ public partial class MainViewModel : ObservableObject
         };
     }
 
-    /// <summary>Next.js 版 lib/due-date.ts と同じ 4 段階: overdue / today / soon(3日以内) / future。</summary>
+    /// <summary>期限表示の 4 段階: overdue / today / soon(3日以内) / future。</summary>
     public static (string?, string?) DueInfo(string? due)
     {
         if (string.IsNullOrWhiteSpace(due) || !DateOnly.TryParseExact(due.Trim(), "yyyy-MM-dd", out var d))

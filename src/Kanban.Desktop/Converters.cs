@@ -23,8 +23,7 @@ public sealed class HexToBrushConverter : IValueConverter
 
 /// <summary>
 /// アイテム id から決定的に淡いパステル背景を選ぶ。
-/// Next.js 版 kanban-tasks の lib/item-color.ts と同じ
-/// 16 色パレット (Tailwind *-50) と FNV-1a + Murmur3 ハッシュを使い、
+/// 16 色パステルパレット (Tailwind *-50) と FNV-1a + Murmur3 ハッシュを使い、
 /// 「あれは緑のタスク」のような視覚記憶を再現する。
 /// </summary>
 public sealed class PastelBrushConverter : IValueConverter
@@ -76,7 +75,7 @@ public sealed class PastelBrushConverter : IValueConverter
 
 /// <summary>
 /// 期限ステータス (overdue / today / soon / future) に応じたブラシ。
-/// parameter = "bg" (背景) / "fg" (文字) / "ring" (枠)。Next.js 版の DueChip に合わせる。
+/// parameter = "bg" (背景) / "fg" (文字) / "ring" (枠)。
 /// </summary>
 public sealed class DueBrushConverter : IValueConverter
 {

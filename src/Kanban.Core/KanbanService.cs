@@ -808,7 +808,7 @@ public sealed class KanbanService
                 Notify();
                 return existing;
             }
-            // 色の指定がなければタグ名から自動配色（Next.js 版 API と同じ）
+            // 色の指定がなければタグ名から自動配色
             tag = new Tag { Name = name, Color = TagPalette.Pick(name) };
             ApplyTagInput(tag, input);
             _tags[tag.Id] = tag;

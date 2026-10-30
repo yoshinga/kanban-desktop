@@ -601,7 +601,7 @@
                           VerticalAlignment="Center"/>
                     <TextBlock Text="Kanban" FontSize="13.5" FontWeight="SemiBold" Margin="8,0,0,0"
                                VerticalAlignment="Center"/>
-                    <!-- プロジェクト切替 (Next.js 版 ProjectSwitcher 相当) -->
+                    <!-- プロジェクト切替 -->
                     <ComboBox ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}"
                               Margin="14,0,0,0" MinWidth="150" FontSize="12" Padding="12,5"
                               VerticalAlignment="Center" ToolTip="プロジェクト">
@@ -1059,7 +1059,7 @@
                                                             <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
                                                             <Style.Triggers>
                                                                 <!-- layout=board: 上から詰めて下端で次の列へ折り返し、横に広がる（縦スクロールなし）。
-                                                                     Next.js 版の flex-col flex-wrap + カード幅 w-64 と同じ -->
+                                                                     flex-col flex-wrap + カード幅 w-64 と同じ -->
                                                                 <DataTrigger Binding="{Binding IsBoardLayout}" Value="True">
                                                                     <Setter Property="ItemContainerStyle" Value="{StaticResource WrapListItem}"/>
                                                                     <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
@@ -1108,7 +1108,7 @@
                              VirtualizingStackPanel.VirtualizationMode="Recycling"/>
                 </DockPanel>
 
-                <!-- Tags（Next.js 版 /tags 相当） -->
+                <!-- Tags -->
                 <ScrollViewer Visibility="{Binding IsTagsView, Converter={StaticResource BoolToVis}}"
                               VerticalScrollBarVisibility="Auto">
                     <StackPanel DataContext="{Binding TagsAdmin}" MaxWidth="760" Margin="24,24,24,32">
@@ -1332,7 +1332,7 @@
             </Grid>
         </Grid>
 
-        <!-- ================= 詳細モーダル (Next.js 版 ItemDetailPanel 相当) ================= -->
+        <!-- ================= 詳細モーダル ================= -->
         <Grid Grid.RowSpan="2" x:Name="DetailOverlay" Background="#4D000000"
               MouseLeftButtonDown="DetailBackdrop_MouseDown"
               MouseLeftButtonUp="DetailBackdrop_MouseUp">

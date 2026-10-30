@@ -337,12 +337,12 @@ public partial class App : Application
             Margin = new Thickness(16), IsReadOnly = true, BorderThickness = new Thickness(0), FontSize = 12.5,
         };
         MarkdownMini.SetSource(mdPanel, string.Join("\n",
-            "## #1141 調査結果", "", "### 結論",
-            "- **保管番地1 = `ws_item_list.i_shelf_num`**", "- [x] 調査済み", "",
-            "| output列 | 移行元 | 変換式 | 分布 |", "|---|---|---|---|",
-            "| display_restock_flg | i_reserve9 | `TRIM(COALESCE(i_reserve9, ''))` | '1':147 / '0':42,374 |",
-            "| sold_out_flg | i_flg_sold | **=1 THEN 1 ELSE 0** | 0:9,270 / 1:54,9xx |",
-            "| deleted_at | i_deleted_at | 単純コピー | NULL:64,148 / 非NULL:63 |", "",
+            "## 作業メモのサンプル", "", "### 結論",
+            "- **対象は 3 件すべて合格**", "- [x] 確認済み", "",
+            "| 項目 | 状態 | 備考 |", "|---|---|---|",
+            "| ビルド | OK | 警告 0 / エラー 0 |",
+            "| テスト | OK | 18 件合格 |",
+            "| リリース | OK | タグ付け済み |", "",
             "表のあとの文章。"));
         var mdWindow = new Window
         {

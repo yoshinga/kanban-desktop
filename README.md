@@ -1,8 +1,6 @@
 # kanban-desktop
 
 同期フォルダー上のプレーンテキスト（例: Dropbox）を正本とする、C# / .NET 8 / WPF のカンバン。
-既存の `kanban-tasks`（Next.js + Supabase + Vercel）を置き換えるための独立システムで、
-既存アプリは改修せず残している。
 
 - データ正本: 同期フォルダー内の Markdown / JSON（任意のディレクトリを vault として指定）
 - アプリ: WPF（ライトテーマ）
@@ -79,8 +77,6 @@ dotnet run --project src/Kanban.Desktop -c Release -- --bench C:\path\to\bench.t
 
 ## UI の操作
 
-見た目・操作感は Next.js 版 kanban-tasks に合わせている。
-
 - **ヘッダー**: プロジェクト切替（選択は `%LOCALAPPDATA%\Kanban\ui.json` に保存）、検索、
   Boards / Activity の切替
 - **サイドバー（プロジェクトタグ）**: すべて / 今日 / 仕事 (`w-*`) / プロジェクト (`p-*`)。
@@ -105,7 +101,7 @@ dotnet run --project src/Kanban.Desktop -c Release -- --bench C:\path\to\bench.t
   サブタスクは Enter で追加、コメントは一覧の上の入力欄から Ctrl+Enter で投稿（一覧は新しい順。本文は表も描ける簡易 Markdown プレビューで、ドラッグで選択してコピーできる。右クリックで原文もコピー可）。
   アクティビティは畳んであり、見出しのクリックで開く
   左右の端（ホバーで青い線）をドラッグで幅を変更（中央寄せのまま両側に広がる）。幅は `ui.json` に保存して次回も同じ幅で開く。端のダブルクリックで既定幅（672px）に戻す
-- **Tags**: ヘッダーの「Tags」でタグ管理画面（Next.js 版 /tags 相当）。新規タグ（絵文字・名前・色・path・説明、
+- **Tags**: ヘッダーの「Tags」でタグ管理画面。新規タグ（絵文字・名前・色・path・説明、
   色は未指定なら名前から自動配色）と、仕事 / プロジェクト / その他 / アーカイブ済み のグループ別一覧。
   各行で名前・絵文字・色・path・説明（Enter かフォーカスアウトで保存、Esc で取り消し）、お気に入り、
   アーカイブ / 復活、削除、親タグ（p-* / w-* 以外）を編集できる。「全タグを自動配色」で色を一括リセット
@@ -151,10 +147,8 @@ src/
   Kanban.Api/       Kestrel 上のローカル REST API（MCP と外部ツール用）
   Kanban.Desktop/   WPF アプリ（UI + API ホスト + ファイル監視）
   Kanban.Mcp/       MCP サーバ（stdio → ローカル API）
-  Kanban.Importer/  Supabase CSV ダンプ → vault 取り込み
 tests/
   Kanban.Core.Tests/
-  Kanban.Importer.Tests/
 ```
 
 ## vault 構成
@@ -176,7 +170,7 @@ tests/
 ## ローカル API
 
 `X-API-Key: <token>` を要求（`/api/health` を除く）。`X-Actor` で実行者名を指定。
-主なルートは旧 API と互換:
+主なルート:
 
 ```
 GET  /api/projects, /api/boards, /api/boards/{id}/items, /api/boards/{id}/stats
@@ -204,21 +198,12 @@ Claude Code / opencode の MCP 設定例:
 
 環境変数でも上書きできる: `KANBAN_API_URL`, `KANBAN_API_KEY`, `KANBAN_ACTOR`。
 
-提供ツール（旧 MCP から tracker 系を除いたもの）:
+提供ツール:
 `list_projects, create_project, list_boards, get_board, create_board, update_board,
 delete_board, board_stats, list_items, list_items_by_tag, get_item, create_item, update_item, move_item,
 delete_item, archive_item, add_subtask, update_subtask, delete_subtask, add_comment,
 delete_comment, list_tags, create_tag, update_tag, delete_tag, attach_tag, detach_tag,
 list_activity, search`
-
-## データ移行（Supabase CSV ダンプ → vault）
-
-```powershell
-dotnet run --project src/Kanban.Importer -- "<Supabase CSV ダンプのフォルダー>" "<vault のパス>"
-```
-
-取り込まれるもの: projects / boards / tags / items（subtasks・tags 展開） / comments /
-activity_logs。`tracker_schedules` / `moved_to_assigned_at` は対象外（設計どおり）。
 
 ## テスト
 
@@ -226,11 +211,10 @@ activity_logs。`tracker_schedules` / `moved_to_assigned_at` は対象外（設�
 dotnet test
 ```
 
-## 実装メモ（設計からの主な差分）
+## 実装メモ
 
 - 検索インデックスは SQLite ではなく **in-memory**。vault をメモリに展開し、検索・一覧は
   LINQ で処理（約 1,000 アイテム規模では十分高速で、破損時の再構築も不要）。
-- MCP は Node ではなく **C# 実装**（既存 `kanban-tasks` を改修しない方針のため）。
 - item frontmatter の `board` はボード GUID（表示名は `boards.json` から解決）。
-- トラッカー（スケジュール・自動 tick）は実装しない（設計どおり）。
+- トラッカー（スケジュール・自動 tick）は実装しない。
 - コンフリクト解決 UI・タグ絞り込み UI は今後（現状は検知の土台のみ）。

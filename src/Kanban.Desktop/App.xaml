@@ -14,7 +14,7 @@
         <local:InverseBoolToVisibilityConverter x:Key="InvBoolToVis"/>
         <local:StringToVisibilityConverter x:Key="StringToVis"/>
 
-        <!-- ===== Palette (Next.js kanban-tasks light theme: slate/neutral) ===== -->
+        <!-- ===== Palette (light theme: slate/neutral) ===== -->
         <SolidColorBrush x:Key="WindowBg" Color="#F8FAFC"/>
         <SolidColorBrush x:Key="PanelBg" Color="#FFFFFF"/>
         <SolidColorBrush x:Key="ColumnBg" Color="#F5F5F5"/>
@@ -712,7 +712,7 @@
             </Setter>
         </Style>
 
-        <!-- ===== Next.js 版に合わせたピル型ボタン群 ===== -->
+        <!-- ===== ピル型ボタン群 ===== -->
         <!-- 黒塗りピル (+ Board などの主ボタン / 選択中チップ) -->
         <Style x:Key="DarkPillButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="#171717"/>
@@ -905,7 +905,7 @@
         <StreamGeometry x:Key="ChevronRightIcon">M 6,4 L 10,8 L 6,12</StreamGeometry>
         <StreamGeometry x:Key="CopyIcon">M 5.5,5.5 L 13,5.5 L 13,13 L 5.5,13 Z M 3,10.5 L 3,3 L 10.5,3</StreamGeometry>
 
-        <!-- ===== 旧スタイル互換 (コメントカード等) ===== -->
+        <!-- ===== コメントカード等 ===== -->
         <Style x:Key="CardBorder" TargetType="Border">
             <Setter Property="Background" Value="#FAFAFA"/>
             <Setter Property="CornerRadius" Value="16"/>

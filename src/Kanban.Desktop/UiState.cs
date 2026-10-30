@@ -5,7 +5,7 @@ namespace Kanban.Desktop;
 
 /// <summary>
 /// UI の小さな状態（選択中プロジェクト・サイドバーとグループの開閉）を
-/// %LOCALAPPDATA%\Kanban\ui.json に保存する。Next.js 版の localStorage 相当。
+/// %LOCALAPPDATA%\Kanban\ui.json に保存する。
 /// </summary>
 public sealed class UiState
 {

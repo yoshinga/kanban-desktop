@@ -13,8 +13,8 @@ using Microsoft.Extensions.Logging;
 namespace Kanban.Api;
 
 /// <summary>
-/// Minimal REST API hosted in-process by the desktop app. Mirrors the original
-/// kanban API so the MCP server (and other tools) can talk to it unchanged.
+/// Minimal REST API hosted in-process by the desktop app. Used by the MCP
+/// server (and other local tools).
 /// </summary>
 public sealed class KanbanApiHost : IDisposable
 {

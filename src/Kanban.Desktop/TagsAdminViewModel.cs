@@ -135,7 +135,7 @@ public sealed partial class TagRowVm : ObservableObject
     private void Delete() => _owner.Delete(this);
 }
 
-/// <summary>Next.js 版 TagsAdmin 相当のタグ管理画面。</summary>
+/// <summary>タグ管理画面（Tags）の VM。</summary>
 public sealed partial class TagsAdminViewModel : ObservableObject
 {
     private readonly KanbanService _svc;
